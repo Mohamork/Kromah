@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Q&A</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .flashcard {
+            font-size: 24px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Question/Answer Flashcards</h1>
+    <div class="flashcard" id="flashcard"></div>
+
+    <script>
+        let questionsAndAnswers = [];
+
+        // Function to display flashcards in random order
+        function displayFlashcard() {
+            const randomIndex = Math.floor(Math.random() * questionsAndAnswers.length);
+            const flashcard = questionsAndAnswers[randomIndex];
+
+            // Show the question
+            document.getElementById("flashcard").textContent = flashcard.front;
+
+            // After a delay, show the answer
+            setTimeout(() => {
+                document.getElementById("flashcard").textContent = flashcard.back;
+
+                // Wait for a few seconds before showing the next question
+                setTimeout(displayFlashcard, 6000);
+            }, 6000);
+        }
+
+        // Start displaying the flashcards
+        displayFlashcard();
+    </script>
+</body>
+</html>
