@@ -1,47 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcard Q&A</title>
+    <title>Notater i tilfeldig rekkefølge</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 20px;
             text-align: center;
-            margin-top: 50px;
         }
-        .flashcard {
-            font-size: 24px;
-            margin-top: 30px;
+        .note {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-    <h1>Question/Answer Flashcards</h1>
-    <div class="flashcard" id="flashcard"></div>
+    <h1>Notater i tilfeldig rekkefølge</h1>
+    <div id="noteContainer" class="note"></div>
 
     <script>
-        let questionsAndAnswers = [];
+        // Dine notater plassert i et array
+        const notes = [
+            "Weighted Random Early Detection kan benyttes for å redusere Tail Drop",
+"Tail Drop oppstår dersom en kø blir full",
+"Polcing algoritmer dropper trafikk",
+"Shaping algoritmer former",
+"Smoothness er viktig for VOICE",
+"Video tillater noe Burst i trafikk",
+"WLC og Lightweigth AP kommuniserer gjennom CAPWAP forbindelse",
+"BSSID er en mac addresse",
+"SSID er lesbart for mennesker",
+"SSID er alfanumerisk format",
+"Mobility Express er en WLC integrert i en AP",
+"Unified er WLC i dedikert hardware",
+"Cloudbased AP sender Management data til Cisco Meraki",
+"Cisco Meraki er en skybasert WLC",
+"Embedded WLC er en WLC integrert i en Switch",
+"Kanaler 1,6, og 11 overlapper ikke i 2,4 GHZ båndet",
+"Ingen kanaler overlapper i 5ghz bånded",
+"Refracction er at radiobølger bøyes i et annet materiale som for eksemepl vann og glass",
+"Deffraction er at radibølger bøyes rundt et opbjekt som for eksempel en mur, eller lyktestolpe",
+"Scattering betyr at radiobølger treffer ustabilt materiale og spres i ulike retninger",
+"Reflection betyr at radiobølger ikke passerer rundt eller gjennom materiale men forandrer retning likevel",
+"Reflection betyr at radiøbølger etter å truffet et material kommer tilbake i samme eller en ny retning",
+"Absorption betyr at radiobølger absorberes av materiale og forandrer seg til for eksempel varme og dermed svekkes radiosignalet",
+"Sikkerhet tiltak bør vurdere Confidentiality Integrity og Availability",
+"Integrity er at data skal være korrekte og i sin ønskede form",
+"Confidentiality er at brukere med riktige tilganger får tilganger på dataene",
+"Availabiltiy er at data alltid er tilgjengelig når det er behøves",
+"AAA er Authentication, Authorization og Accounting",
+"AAA er sentralisert autentisering, autorisering og bokføring av brukere med tillatelser og deres handlinger i nettverket",
+"RADIUS og TACACS+ er AAA protokoller",
+"EAP støtter AAA",
+"WPA2 og WPA3 støtter AAA",
+"Tokens er mer sikkkert enn passord",
+"MFA er mer sikker enn passord",
+"SmartCards er mer sikkert enn passord",
+"Repudiation er at en bruker nekter for at det er dem som har utført en handling",
+"Non-repudiation er at en bruker er ute av stand til å nekte at det har utført en handling",
+"Identity Based Networking er å benytte AAA server",
+"RADIUS benyttes for å autentisere brukere",
+"TACACs og TACACS+ benyttes for å autentisere administratorer",
+"Vulnerability vil si en sårbarhet eller svakhet som kan utnyttes",
+"Exploit vil si å utnytte en sårbharhet ved hjelp av et verktøy",
+"Treath er en sannsynlighet for at trusselaktører angriper",
+"Risiko er konsekvensene av å bli angrepet",
+"Mitigation Technique er metodene som benyttes for å redusere sårbarheter i nettverket",
+"Brukere som bare trykker rundt kan utgjøre en trussel for datasikkerheten",
+"Trusselaktører er dem som utfører målrettede angrep",
+"Trusselaktører fra et annet nettverk kalles eksterne trusler",
+"Trusselaktører som er ansatt i bedriften kalles interne trusler",
+"Reconnaisance er å utforske nettverket, dette gjøres ofte av trusselaktører i forkant av et angrep",
+"Access vil si data angrep hvor trusselaktører forsøker å skaffe privilegier i nettverket",
+"Denial of Service påvirker Availability i CIA-Triaden, tjenester er utligjengelige når brukere ønsker det",
+"EavesDropping påvierk Confidentilaity i CIA-Triaden, data blir tilgjengelig for uatoriserte brukere",
+"Telnet sender informasjon i klartekst og kan være sensitiv for Eavesdropping",
+"Trussel aktører trenger lite teknisk kompetanse for å utføre Denial of Service angrep",
+"Ping of Death er Dos angrep ved å sende mye Ping, Availabiltiy påvirkes",
+"SYN Flood er åpner mange TCP sessions",
+"Spoofing er trusselaøkterer som illegitimt benytter legitime addresser, får uatorisert tilgang til nettverket",
+"Dynamic ARP Inspection kan forhindre Spoofing i et LAN, bruker DHCP Snooping",
+"Trusselaktører forfalsker ofte ip eller mac-addresser, utfører spoofing",
+"Token Hijackig er et stadig mer populært data angrep, trussel aktører stjeler autentisering token",
+"Repudiation er å skjule aktivitet i nettverket, motarbeides ved hjelp av Accounting, Eventlog, og Auditing",
+"Non-repudiation er det motsatte av repudiation, aktiviteter i nettverket er loggført og kan ikke nektes for å ha blitt utført",
+"Man in the middle kan ta mange former for eksempel Packet Sniffing og Rogue Access Points",
+"Virus er programvare som gjemmer seg i annen programvare",
+"Worm er programvare som sprer seg uten å benytte andre programvarer til å starte aktiviteten",
+"Trojan er en program som utgir seg for å være legitim, Trojan er ikke nødvendigvis skadelig, men Virus vil alltid være skadelig",
+"Spyware er programvare som samler inn data,",
+"Social Engineering er å utnytte menneskers evne til å gjøre feil til tross for at dem vet bedre, for eksempel stole på noen som ikke bør stoles på, eller glemme noe som ikke bør glemmes",
+"Phishing er Social Engineeering",
+"Phishing mot et individ er Whaling Spear Phishing",
+"Tailgating er Social Engineering",
+"Waterilg Hole er Social Engineering, legitim nettside med farlige lenker",
+        ];
 
-        // Function to display flashcards in random order
-        function displayFlashcard() {
-            const randomIndex = Math.floor(Math.random() * questionsAndAnswers.length);
-            const flashcard = questionsAndAnswers[randomIndex];
+        let currentNoteIndex = -1;
 
-            // Show the question
-            document.getElementById("flashcard").textContent = flashcard.front;
+        function showRandomNote() {
+            // Velg et tilfeldig notat som ikke er det samme som det forrige
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * notes.length);
+            } while (randomIndex === currentNoteIndex);
 
-            // After a delay, show the answer
-            setTimeout(() => {
-                document.getElementById("flashcard").textContent = flashcard.back;
-
-                // Wait for a few seconds before showing the next question
-                setTimeout(displayFlashcard, 6000);
-            }, 6000);
+            currentNoteIndex = randomIndex;
+            const noteContainer = document.getElementById('noteContainer');
+            noteContainer.textContent = notes[randomIndex];
         }
 
-        // Start displaying the flashcards
-        displayFlashcard();
+        // Vis første notat umiddelbart
+        showRandomNote();
+
+        // Bytt notat hver 10. sekund
+        setInterval(showRandomNote, 10000);
     </script>
 </body>
 </html>
